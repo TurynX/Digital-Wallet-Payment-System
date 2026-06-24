@@ -84,10 +84,5 @@ Click Send. The transaction will process normally (201 Created).
 
 Click Send again immediately without changing the header value.
 
-The API will intercept the request, prevent a second charge from happening
-
-```
-
-```
-
+The API will intercept the request, prevent a second charge from happening.
 ```

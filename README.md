@@ -33,28 +33,43 @@
 ```bash
 git clone [https://github.com/Turynx/digital-wallet-api.git](https://github.com/your-username/digital-wallet-api.git)
 cd digital-wallet-api
-2. Install dependencies
-Bash
+```
+
+### 2. Install dependencies
+
+```bash
 npm install
-3. Set up Environment Variables
+```
+
+### 3. Set up Environment Variables
+
 Create a .env file in the root directory and configure your PostgreSQL database connection:
 
-Code snippet
+```bash
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 JWT_SECRET="super-secret-key-change-this-in-production"
-4. Run Database Migrations
+```
+
+### 4. Run Database Migrations
+
 Generate and apply Prisma migrations to set up your database schema:
 
-Bash
+```bash
 npx prisma migrate dev --name init
-5. Start the Application
-Bash
+```
+
+### 5. Start the Application
+
+```bash
 # development mode
 npm run start:dev
 
 # production mode
+
 npm run start:prod
+
 🧪 Testing Idempotency in Insomnia/Postman
+
 To test the network failure protection and duplicate charge prevention:
 
 Create a POST /transfers request.
@@ -70,4 +85,9 @@ Click Send. The transaction will process normally (201 Created).
 Click Send again immediately without changing the header value.
 
 The API will intercept the request, prevent a second charge from happening, and return either the cached response or a 409 Conflict status, keeping the user's funds completely safe.
+
+```
+
+```
+
 ```

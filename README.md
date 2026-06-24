@@ -84,7 +84,7 @@ Click Send. The transaction will process normally (201 Created).
 
 Click Send again immediately without changing the header value.
 
-The API will intercept the request, prevent a second charge from happening, and return either the cached response or a 409 Conflict status, keeping the user's funds completely safe.
+The API will intercept the request, prevent a second charge from happening
 
 ```
 

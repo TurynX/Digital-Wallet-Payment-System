@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  digital-wallet-payment:
+    image: postgres:15-alpine
+    container_name: digital-wallet-payment
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: digital-wallet-payment_db
+    ports:
+      - '5433:5432'
+    volumes:
+      - ./docker/data/dev:/var/lib/postgresql/data
+
+  digital-wallet-payment-test:
+    image: postgres:15-alpine
+    container_name: digital-wallet-payment-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: digital-wallet-payment-test_db
+    ports:
+      - '5434:5432'
+    volumes:
+      - ./docker/data/test:/var/lib/postgresql/data

@@ -18,7 +18,7 @@ jobs:
           POSTGRES_PASSWORD: root
           POSTGRES_DB: digital-wallet-payment-test_db
         ports:
-          - 5438:5432
+          - 5434:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -41,7 +41,7 @@ jobs:
       - name: Run Prisma Migrations
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: postgresql://postgres:root@localhost:5438/digital-wallet-payment-test_db
+          DATABASE_URL: postgresql://postgres:root@localhost:5434/digital-wallet-payment-test_db
           NODE_ENV: test
           JWT_SECRET_KEY: supersecret
           JWT_EXPIRES_IN: 7d
@@ -49,7 +49,7 @@ jobs:
       - name: Execute E2E Tests
         run: npm run test:e2e
         env:
-          DATABASE_URL: postgresql://postgres:root@localhost:5438/digital-wallet-payment-test_db
+          DATABASE_URL: postgresql://postgres:root@localhost:5434/digital-wallet-payment-test_db
           NODE_ENV: test
           JWT_SECRET_KEY: supersecret
           JWT_EXPIRES_IN: 7d

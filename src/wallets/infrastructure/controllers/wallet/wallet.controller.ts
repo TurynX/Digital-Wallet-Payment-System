@@ -11,6 +11,7 @@ export class WalletController {
   @HttpCode(200)
   async getMyWallet(@Req() req: any) {
     const userId = req['user'].sub;
-    return this.getMyWalletUseCase.execute(userId);
+    const wallet = await this.getMyWalletUseCase.execute(userId);
+    return { data: wallet };
   }
 }

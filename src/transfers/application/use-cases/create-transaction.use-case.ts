@@ -1,4 +1,9 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { TransferEntity } from 'src/transfers/domain/transfer.entities';
 import {
   ITRANSFER_REPOSITORY,
@@ -6,7 +11,6 @@ import {
 } from 'src/transfers/domain/transfer.repository.interface';
 import type { CreateTransferDto } from 'src/transfers/infrastructure/dtos/transfer.dto';
 import { getMyWalletUseCase } from 'src/wallets/application/use-cases/get-my-wallet.use-case';
-import { UpdateWalletUseCase } from 'src/wallets/application/use-cases/update-wallet.use-case';
 
 @Injectable()
 export class CreateTransactionUseCase {
@@ -27,6 +31,8 @@ export class CreateTransactionUseCase {
       throw new ConflictException('Transaction already exists');
     }
 
+    console.log('Transaction', senderId);
+
     const senderWallet = await this.getMyWalletUseCase.execute(senderId);
 
     const receiverWallet = await this.getMyWalletUseCase.execute(
@@ -34,17 +40,17 @@ export class CreateTransactionUseCase {
     );
 
     if (!senderWallet || !receiverWallet) {
-      throw new ConflictException('Invalid transaction');
+      throw new BadRequestException('Invalid transaction');
     }
     if (senderWallet.balance < data.amount) {
-      throw new ConflictException('Insufficient balance');
+      throw new BadRequestException('Insufficient balance');
     }
     if (senderWallet.currency !== receiverWallet.currency) {
-      throw new ConflictException('Wallets must have the same currency');
+      throw new BadRequestException('Wallets must have the same currency');
     }
 
     if (senderWallet.userId === data.receiverId) {
-      throw new ConflictException('Cannot transfer to self');
+      throw new BadRequestException('Cannot transfer to self');
     }
 
     const result = await this.transferRepository.create(
@@ -54,7 +60,7 @@ export class CreateTransactionUseCase {
     );
 
     if (!result) {
-      throw new ConflictException('Transaction failed');
+      throw new BadRequestException('Transaction failed');
     }
 
     return result;

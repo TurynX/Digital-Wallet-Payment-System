@@ -2,7 +2,6 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { LoginDto, RegisterDto } from '../../dtos/auth.dto';
 import { LoginUseCase } from 'src/auth/application/use-cases/login.use-case';
 import { RegisterUseCase } from 'src/auth/application/use-cases/register.use-case';
-import { LoginResponse, RegisterResponse } from 'src/auth/domain/auth.entities';
 
 @Controller('auth')
 export class AuthController {
@@ -13,13 +12,15 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(201)
-  async register(@Body() dto: RegisterDto): Promise<RegisterResponse> {
-    return this.registerUseCase.execute(dto);
+  async register(@Body() dto: RegisterDto) {
+    const response = await this.registerUseCase.execute(dto);
+    return { message: 'User registered successfully', data: response };
   }
 
   @Post('login')
   @HttpCode(200)
-  async login(@Body() dto: LoginDto): Promise<LoginResponse> {
-    return this.loginUseCase.execute(dto);
+  async login(@Body() dto: LoginDto) {
+    const response = await this.loginUseCase.execute(dto);
+    return { message: 'User logged in successfully', data: response };
   }
 }

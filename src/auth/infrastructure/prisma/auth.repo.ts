@@ -19,10 +19,10 @@ export class AuthRepository implements IAuthRepository {
     return new RegisterResponse(user.id, user.email);
   }
 
-  async findByEmail(email: string): Promise<FindByEmailResponse> {
+  async findByEmail(email: string): Promise<FindByEmailResponse | null> {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
-    if (!user) return null!;
+    if (!user) return null;
 
     return new FindByEmailResponse(user.id, user.email, user.password);
   }

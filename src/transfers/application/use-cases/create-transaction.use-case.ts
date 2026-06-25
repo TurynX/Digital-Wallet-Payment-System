@@ -31,8 +31,6 @@ export class CreateTransactionUseCase {
       throw new ConflictException('Transaction already exists');
     }
 
-    console.log('Transaction', senderId);
-
     const senderWallet = await this.getMyWalletUseCase.execute(senderId);
 
     const receiverWallet = await this.getMyWalletUseCase.execute(

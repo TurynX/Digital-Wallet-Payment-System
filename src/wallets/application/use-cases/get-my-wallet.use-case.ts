@@ -10,8 +10,6 @@ export class getMyWalletUseCase {
   ) {}
 
   async execute(userId: string) {
-    console.log('Wallet ', userId);
-
     const wallet = await this.walletRepo.get(userId);
     if (!wallet) {
       return await this.walletRepo.create(userId);

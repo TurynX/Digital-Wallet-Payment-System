@@ -39,6 +39,6 @@ export class TransfersController {
   async getTransactionsHistory(@Req() req: Request) {
     const userId = req['user'].sub;
     const result = await this.getTransactionsHistoryUseCase.execute(userId);
-    return { status: 'Transactions History', data: result };
+    return { status: 'Transactions History', data: { transactions: result } };
   }
 }

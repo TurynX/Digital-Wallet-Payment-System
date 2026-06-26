@@ -135,4 +135,24 @@ describe('Transfer (e2e)', () => {
         );
       });
   });
+
+  it('should get users transaction history', async () => {
+    const { id1, id2, token1 } = await getUsersData();
+
+    await request(app.getHttpServer())
+      .post('/transfer')
+      .set('Authorization', `Bearer ${token1}`)
+      .set('x-idempotency-key', '1234567894')
+      .send({ amount: 10000, receiverId: id2 });
+
+    return request(app.getHttpServer())
+      .get('/transfer')
+      .set('Authorization', `Bearer ${token1}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('transactions');
+        expect(res.body.data.transactions).toHaveLength(1);
+      });
+  });
 });
